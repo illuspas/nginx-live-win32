@@ -1,0 +1,6 @@
+# --- 运行时状态：程序启动/运行后自动生成，不属于发布内容 ---
+logs/*
+!logs/.gitkeep
+temp/*
+!temp/.gitkeep
+nginx_service.log

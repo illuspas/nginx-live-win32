@@ -1,52 +1,32 @@
 nginx-rtmp-win32
 ================
 
-* Nginx: 1.14.1  
-* Nginx-Rtmp-Module: 1.2.1  
-* openssl-1.0.2p
-* pcre-8.42
-* zlib-1.2.11
+Windows 绿色包：nginx + nginx-live-module（RTMP / HTTP-FLV 直播），
+另附 `nginx_service.exe`（把 nginx 注册为 Windows 服务，并提供托盘管理界面）。
 
-# configure arguments
-```
-nginx version: nginx/1.14.1
-built by cl 18.00.40629 for x86
-built with OpenSSL 1.0.2p  14 Aug 2018
-TLS SNI support enabled
-configure arguments: --with-cc=cl --builddir=objs --with-debug --prefix= --conf-
-path=conf/nginx.conf --pid-path=logs/nginx.pid --http-log-path=logs/access.log -
--error-log-path=logs/error.log --sbin-path=nginx.exe --http-client-body-temp-pat
-h=temp/client_body_temp --http-proxy-temp-path=temp/proxy_temp --http-fastcgi-te
-mp-path=temp/fastcgi_temp --http-scgi-temp-path=temp/scgi_temp --http-uwsgi-temp
--path=temp/uwsgi_temp --with-cc-opt=-DFD_SETSIZE=1024 --with-pcre=objs/lib/pcre-
-8.42 --with-zlib=objs/lib/zlib-1.2.11 --with-select_module --with-http_v2_module
- --with-http_realip_module --with-http_addition_module --with-http_sub_module --
-with-http_dav_module --with-http_stub_status_module --with-http_flv_module --wit
-h-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --wit
-h-http_auth_request_module --with-http_random_index_module --with-http_secure_li
-nk_module --with-http_slice_module --with-mail --with-stream --with-openssl=objs
-/lib/openssl-1.0.2p --with-openssl-opt=no-asm --with-http_ssl_module --with-mail
-_ssl_module --with-stream_ssl_module --add-module=objs/lib/nginx-rtmp-module/
-```
+版本号、编译参数、exe 大小与 SHA256 由构建脚本自动生成在 **BUILD-INFO.txt**，
+请以该文件为准（不要手工编辑、也不要在这里手写版本）。
 
 # 使用方法
-双击nginx.exe
+* 直接运行：双击 `nginx.exe`
+* 作为服务/托盘管理：运行 `nginx_service.exe`（安装、启动、停止、卸载、打开配置/页面）
+* 命令行停止：`nginx.exe -s stop`
+
 # 简要说明
-conf/nginx.conf 为配置文件实例  
-RTMP监听 1935 端口，启用live 和hls 两个application  
-HTTP监听 8080 端口，
-* :8080/stat 查看stream状态  
-* :8080/index.html 为一个直播播放与直播发布测试器
-* :8080/vod.html 为一个支持RTMP和HLS点播的测试器
+`conf/nginx.conf` 为配置文件实例：
+* RTMP 监听 1935 端口，application `live`（直播）
+* HTTP 监听 8080 端口：
+  * `:8080/stat` 查看 stream 状态
+  * `:8080/<app>/<stream>.flv` HTTP-FLV 拉流，如 `http://localhost:8080/live/mystream.flv`
 
 # 注意
-不支持exec
+不支持 exec
 
-# 直播测试工具 
+# 直播测试工具
 内置了一个方便测试的pc端推流于播放的工具
 ![img](https://github.com/NodeMedia/NodeMediaDevClient/raw/master/QQ20160310-0.png)
 源码在此:https://github.com/NodeMedia/NodeMediaDevClient
 
 # 另一个选择，支持HTTP-FLV
 基于Node.js实现,高性能,原生跨平台,支持RTMP/HTTP-FLV/GOPcache
-https://github.com/illuspas/Node-Media-Server 
+https://github.com/illuspas/Node-Media-Server
