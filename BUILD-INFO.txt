@@ -1,17 +1,17 @@
 nginx-live Win32 package - build information
 ============================================
-Package version   : v2.0.0
-Build time        : 2026-10-05 21:26:06 +08:00
+Package version   : v2.0.1
+Build time        : 2026-10-05 21:50:16 +08:00
 Built by          : cl 19.51.36252 for x64
 nginx             : 1.31.6
-nginx-live-module : 2.0.0 @ 90a1feb
+nginx-live-module : 2.0.0 @ 7f0f201
 nginx-service     : 1.0.0
-Build repo        : git@git.nodemedia.cn:illuspas/nginx-live.git @ 89942de+dirty
-Release repo      : git@github.com:illuspas/nginx-rtmp-win32.git @ d5b12c9 -> tag v2.0.0
+Build repo        : git@git.nodemedia.cn:illuspas/nginx-live.git @ 707b314
+Release repo      : git@github.com:illuspas/nginx-live-win32.git @ 0161003 -> tag v2.0.1
 
 Artifacts:
   nginx.exe             8449024 bytes  sha256 7c79106c78a57767d0e2c2efba1140cc0b14ba7e36b786237c63b6b824d2e2f5
-  nginx_service.exe      188416 bytes  sha256 2283d07696280a6e316704f0079c35a115e09d44e31f119f83e6f4ccc6f193dd
+  nginx_service.exe      188416 bytes  sha256 e1cdb805685a4b6bb0a923ba277fb9c8428756505dd6ce2a83857658a3d3bd08
 
 nginx -V:
   nginx version: nginx/1.31.6
