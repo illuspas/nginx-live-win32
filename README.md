@@ -7,6 +7,12 @@ Windows 绿色包：nginx + nginx-live-module（RTMP / HTTP-FLV 直播），
 版本号、编译参数、exe 大小与 SHA256 由构建脚本自动生成在 **BUILD-INFO.txt**，
 请以该文件为准（不要手工编辑、也不要在这里手写版本）。
 
+# 下载
+
+* **推荐**：到 [Releases](../../releases/latest) 页下载 `nginx-live-<版本>-win32.zip`（绿色包，解压即用），
+  同页附 `SHA256SUMS.txt` 校验和；每个版本的构建来源与组件版本见 Release 说明。
+* 也可以直接 clone 本仓库：仓库内提交的就是同一份可运行包。
+
 # 使用方法
 * 直接运行：双击 `nginx.exe`
 * 作为服务/托盘管理：运行 `nginx_service.exe`（安装、启动、停止、卸载、打开配置/页面）
