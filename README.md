@@ -1,4 +1,4 @@
-nginx-rtmp-win32
+nginx-live-win32
 ================
 
 Windows 绿色包：nginx + nginx-live-module（RTMP / HTTP-FLV 直播），
