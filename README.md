@@ -22,6 +22,20 @@ Windows 绿色包：nginx + nginx-live-module（RTMP / HTTP-FLV 直播），
 # 注意
 不支持 exec
 
+# 许可与来源
+本包是 nginx + nginx-live-module + 服务管理器的组合二进制，各组件的许可证全文随包
+附在 `LICENSES/` 目录，完整清单与版权声明见 `THIRD-PARTY-NOTICES.md`：
+
+| 组件 | 许可证 |
+|---|---|
+| nginx | BSD 2-Clause |
+| nginx-live-module、服务管理器 | Apache License 2.0 |
+| OpenSSL | Apache License 2.0 |
+| PCRE2 | BSD 3-Clause（含 PCRE2 例外条款） |
+| zlib | zlib License |
+
+nginx 是 Nginx, Inc. 的注册商标；本包是独立第三方构建，与 Nginx, Inc. 无隶属关系。
+
 # 直播测试工具
 内置了一个方便测试的pc端推流于播放的工具
 ![img](https://github.com/NodeMedia/NodeMediaDevClient/raw/master/QQ20160310-0.png)
