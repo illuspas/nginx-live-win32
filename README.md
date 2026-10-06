@@ -3,7 +3,7 @@ nginx-live-win32
 
 ## 简介
 
-nginx-live-win32 是 [nginx](https://nginx.org/) + [nginx-live-module](https://github.com/illuspas/nginx-live) 的 Windows 绿色包（解压即用，免安装），
+nginx-live-win32 是 [nginx](https://nginx.org/) + [nginx-live-module](https://github.com/illuspas/nginx-live-module) 的 Windows 绿色包（解压即用，免安装），
 实现高性能、低延迟的开源直播流媒体服务器，支持 **RTMP / Enhanced RTMP / HTTP-FLV** 推流与播放。
 
 包内另附 `nginx_service.exe`：把 nginx 注册为 Windows 服务，并提供系统托盘管理界面。
@@ -26,7 +26,7 @@ nginx-live-win32 是 [nginx](https://nginx.org/) + [nginx-live-module](https://g
 
 ## 下载
 
-* **推荐**：到 [Releases](releases) 页下载 `nginx-live-<版本>-win32.zip`（绿色包，解压即用），
+* **推荐**：到 [Releases](../../releases) 页下载 `nginx-live-<版本>-win32.zip`（绿色包，解压即用），
   同页附 `SHA256SUMS.txt` 校验和；每个版本的构建来源与组件版本见 Release 说明。
 * 也可以直接 clone 本仓库：仓库内提交的就是同一份可运行包。
 
