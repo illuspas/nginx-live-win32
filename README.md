@@ -149,6 +149,54 @@ http {
 * AMF3 命令（objectEncoding=3）不支持
 * reload 后新 worker 流表为空，已有流对新连接不可见（长连接场景可配置 `worker_shutdown_timeout`）
 
+
+## 支持的客户端
+|Client   | H.264  | HEVC | VP9 | AV1|
+| ------------ | ------------ |------------ |------------ |------------ |
+|  OBS_29.1+|  ✅   | ✅ |  ❌|  ✅ |
+|  FFmpeg/FFplay_6.1+ |   ✅  |  ✅ |  ✅ |  ✅ |
+|  NodePlayer.js_1.0+ |   ✅  |  ✅ |  ❌ |  ❌ |
+|  NodeMediaClient_3.0+ |   ✅  |  ✅ |  ❌ |  ❌ |
+
+### [QLive](https://play.google.com/store/apps/details?id=cn.nodemedia.qlive) 
+Free Android Live Streaming App
+
+### [NodePlayer.js](https://www.nodemedia.cn/product/nodeplayer-js/) pure javascript implementation live streaming player
+[Online Demo](http://demo.nodemedia.cn/)
+- ASM.js, WASM, SIMD, WebWorker, WebCodecs, MediaSource multiple technical implementations
+- H.264/H.265+AAC/G711 software and hardware decoder
+- Ultra-low latency, Under extreme conditions less than 100 milliseconds
+- Enhanced HTTP/WS-FLV Protocol, Natively support h.265
+- Android/iOS/HarmonyOS/Chrome/Edge/Firefox/Safari, All modern browsers or platforms
+
+### [NodePublisher.js](https://www.nodemedia.cn/demo/nodepublisher/) pure javascript implementation live streaming publisher
+- WebSocket-FLV Protocol
+- H.264+AAC hardware encoder
+- Only chrome or chromium based browsers are supported at the moment
+- wss is required
+
+### [NodeMediaClient-iOS](https://github.com/NodeMedia/NodeMediaClient-iOS)  iOS live streaming player and publisher SDK
+- Objective-C/Swift
+- RTMP/HTTP-FLV/RTSP
+- H.264/H.265+AAC/OPUS/G711
+- Ultra-low latency, Under extreme conditions less than 100 milliseconds
+- Enhanced RTMP/FLV Protocol, Natively support H.265/OPUS
+- Built-in beauty filter
+
+### [NodeMediaClient-Android](https://github.com/NodeMedia/NodeMediaClient-Android)  Android live streaming player and publisher SDK
+- JAVA/Kotlin
+- armv7/arm64/x86/x86_64
+- RTMP/HTTP-FLV/RTSP
+- H.264/H.265+AAC/OPUS/G711
+- Ultra-low latency, Under extreme conditions less than 100 milliseconds
+- Enhanced RTMP/FLV Protocol, Natively support H.265/OPUS
+- Built-in beauty filter
+
+### [expo-nodemediaclient](https://github.com/NodeMedia/expo-nodemediaclient)  Expo module for NodeMediaClient
+- iOS and Android
+- player and publisher
+
+
 ## 许可与来源
 
 本包是 nginx + nginx-live-module + 服务管理器的组合二进制，各组件的许可证全文随包
