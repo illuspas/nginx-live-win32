@@ -16,7 +16,7 @@ nginx-live-win32 是 [nginx](https://nginx.org/) + [nginx-live-module](https://g
 * RTMP 推流/播放（兼容 OBS、FFmpeg 等）
 * Enhanced RTMP v1：原生支持 HEVC (H.265)、AV1、VP9、Opus，无需转码直接转发
 * HTTP-FLV 推流（POST）/ 播放（GET），HTTP/1.1 chunked
-* WS/WSS-flv 不支持（当前版本仅 HTTP-FLV）
+* WS/WSS-flv  推流 / 播放
 * GOP 缓存，播放端从最近关键帧秒开（≤ 1 个 GOP）
 * 访问控制：`allow/deny publish|play`（支持 CIDR，RTMP 与 HTTP-FLV 共用）
 * JSON 状态接口 `/stat`：流列表、编码格式、码量、客户端数等实时统计

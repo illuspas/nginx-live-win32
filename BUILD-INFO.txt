@@ -1,21 +1,21 @@
 nginx-live Win32 package - build information
 ============================================
-Package version   : v2.0.1
-Build time        : 2026-10-05 21:50:16 +08:00
-Built by          : cl 19.51.36252 for x64
+Package version   : v2.0.2
+Build time        : 2026-10-11 13:49:10 +08:00
+Built by          : cl 19.51.36260 for x64
 nginx             : 1.31.6
-nginx-live-module : 2.0.0 @ 7f0f201
+nginx-live-module : 2.0.2 @ 619a4a7
 nginx-service     : 1.0.0
-Build repo        : git@git.nodemedia.cn:illuspas/nginx-live.git @ 707b314
-Release repo      : git@github.com:illuspas/nginx-live-win32.git @ 0161003 -> tag v2.0.1
+Build repo        : git@git.nodemedia.cn:illuspas/nginx-live.git @ 62a849b+dirty
+Release repo      : git@github.com:illuspas/nginx-live-win32.git @ da6e7f2 -> tag v2.0.2
 
 Artifacts:
-  nginx.exe             8449024 bytes  sha256 7c79106c78a57767d0e2c2efba1140cc0b14ba7e36b786237c63b6b824d2e2f5
-  nginx_service.exe      188416 bytes  sha256 e1cdb805685a4b6bb0a923ba277fb9c8428756505dd6ce2a83857658a3d3bd08
+  nginx.exe             8458752 bytes  sha256 c82d291a7a70f111821a6a67744658a897746048d01c6d4e6555fba8a9b777b6
+  nginx_service.exe      188416 bytes  sha256 9e7f7c5422da2aa70097a36c2dd11373fea9df292c640fd1e0c191b5d96c5941
 
 nginx -V:
   nginx version: nginx/1.31.6
-  built by cl 19.51.36252 for x64
+  built by cl 19.51.36260 for x64
   built with OpenSSL 4.0.3 29 Sep 2026
   TLS SNI support enabled
   configure arguments: --with-cc=cl --add-module=../nginx-live-module --prefix= --conf-path=conf/nginx.conf --pid-path=logs/nginx.pid --http-log-path=logs/access.log --error-log-path=logs/error.log --sbin-path=nginx.exe --http-client-body-temp-path=temp/client_body_temp --http-proxy-temp-path=temp/proxy_temp --http-fastcgi-temp-path=temp/fastcgi_temp --http-scgi-temp-path=temp/scgi_temp --http-uwsgi-temp-path=temp/uwsgi_temp --with-cc-opt='-DFD_SETSIZE=1024 -wd4996' --with-pcre=../deps/pcre2-10.49 --with-zlib=../deps/zlib-1.3.1 --with-openssl=../deps/openssl-4.0.3 --with-openssl-opt='no-asm no-tests' --with-file-aio --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-http_stub_status_module --with-http_gzip_static_module --with-http_gunzip_module --with-http_sub_module --with-http_flv_module --with-http_mp4_module --with-http_auth_request_module --with-http_secure_link_module --with-http_slice_module --with-stream --with-stream_ssl_module --with-stream_realip_module --with-stream_ssl_preread_module
