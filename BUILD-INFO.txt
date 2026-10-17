@@ -1,20 +1,20 @@
 nginx-live Win32 package - build information
 ============================================
-Package version   : v2.0.2
-Build time        : 2026-10-11 13:49:10 +08:00
+Package version   : v2.0.3
+Build time        : 2026-10-17 17:35:32 +08:00
 Built by          : cl 19.51.36260 for x64
-nginx             : 1.31.6
-nginx-live-module : 2.0.2 @ 619a4a7
+nginx             : 1.31.7
+nginx-live-module : 2.0.3 @ 7e47512
 nginx-service     : 1.0.0
-Build repo        : git@git.nodemedia.cn:illuspas/nginx-live.git @ 62a849b+dirty
-Release repo      : git@github.com:illuspas/nginx-live-win32.git @ da6e7f2 -> tag v2.0.2
+Build repo        : git@git.nodemedia.cn:illuspas/nginx-live.git @ 01e48d1
+Release repo      : git@github.com:illuspas/nginx-live-win32.git @ 6e624c5 -> tag v2.0.3
 
 Artifacts:
-  nginx.exe             8458752 bytes  sha256 c82d291a7a70f111821a6a67744658a897746048d01c6d4e6555fba8a9b777b6
-  nginx_service.exe      188416 bytes  sha256 9e7f7c5422da2aa70097a36c2dd11373fea9df292c640fd1e0c191b5d96c5941
+  nginx.exe             8464384 bytes  sha256 29ca5c948d6c410ba82d9d2accc9b051ee2702ad5cd90ed148827a0373e617e7
+  nginx_service.exe      188416 bytes  sha256 7a74847009aa84de18a4e3fcc5dfdee9b994eb4f1276bdfdb4dc3113085b7f4c
 
 nginx -V:
-  nginx version: nginx/1.31.6
+  nginx version: nginx/1.31.7
   built by cl 19.51.36260 for x64
   built with OpenSSL 4.0.3 29 Sep 2026
   TLS SNI support enabled

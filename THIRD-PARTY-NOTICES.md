@@ -1,12 +1,12 @@
 # 第三方组件与许可证声明
 
-本发布包 **v2.0.2**（构建时间 `2026-10-11 13:49:10 +08:00`）包含下列组件，各组件版权归其
+本发布包 **v2.0.3**（构建时间 `2026-10-17 17:35:32 +08:00`）包含下列组件，各组件版权归其
 作者所有，按下列许可证分发。许可证全文随包附于 `LICENSES/` 目录。
 
 | 组件 | 版本 | 许可证 | 全文 |
 |---|---|---|---|
-| nginx | 1.31.6 | BSD 2-Clause | [LICENSES/nginx.txt](LICENSES/nginx.txt) |
-| nginx-live-module | 2.0.2 | Apache License 2.0 | [LICENSES/apache-2.0.txt](LICENSES/apache-2.0.txt) |
+| nginx | 1.31.7 | BSD 2-Clause | [LICENSES/nginx.txt](LICENSES/nginx.txt) |
+| nginx-live-module | 2.0.3 | Apache License 2.0 | [LICENSES/apache-2.0.txt](LICENSES/apache-2.0.txt) |
 | nginx-live 服务管理器（nginx_service.exe） | 见 BUILD-INFO.txt | Apache License 2.0 | [LICENSES/apache-2.0.txt](LICENSES/apache-2.0.txt) |
 | OpenSSL | 4.0.3 | Apache License 2.0 | [LICENSES/openssl.txt](LICENSES/openssl.txt) |
 | PCRE2 | 10.49 | BSD 3-Clause（含 PCRE2 例外条款） | [LICENSES/pcre2.txt](LICENSES/pcre2.txt) |
