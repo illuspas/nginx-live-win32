@@ -1,72 +1,82 @@
 nginx-live-win32
 ================
 
-## 简介
+[简体中文](README_CN.md) | **English**
 
-nginx-live-win32 是 [nginx](https://nginx.org/) + [nginx-live-module](https://github.com/illuspas/nginx-live-module) 的 Windows 绿色包（解压即用，免安装），
-实现高性能、低延迟的开源直播流媒体服务器，支持 **RTMP / Enhanced RTMP / HTTP-FLV** 推流与播放。
+## Introduction
 
-包内另附 `nginx_service.exe`：把 nginx 注册为 Windows 服务，并提供系统托盘管理界面。
+nginx-live-win32 is a portable ("green", unzip-and-run, no installation) Windows build of
+[nginx](https://nginx.org/) + [nginx-live-module](https://github.com/illuspas/nginx-live-module).
+It provides a high-performance, low-latency open-source live streaming server supporting
+**RTMP / Enhanced RTMP / HTTP-FLV** publishing and playback.
 
-版本号、编译参数、exe 大小与 SHA256 由构建脚本自动生成在 **BUILD-INFO.txt**，
-请以该文件为准（不要手工编辑、也不要在这里手写版本）。
+The package also ships `nginx_service.exe`, which registers nginx as a Windows service and
+provides a system tray management UI.
 
-## 特性
+The version number, build flags, executable size and SHA256 are generated automatically by the
+build scripts into **BUILD-INFO.txt**. That file is authoritative — do not edit it by hand, and
+do not hard-code versions here.
 
-* RTMP 推流/播放（兼容 OBS、FFmpeg 等）
-* Enhanced RTMP v1：原生支持 HEVC (H.265)、AV1、VP9、Opus，无需转码直接转发
-* HTTP-FLV 推流（POST）/ 播放（GET），HTTP/1.1 chunked
-* WS/WSS-flv  推流 / 播放
-* GOP 缓存，播放端从最近关键帧秒开（≤ 1 个 GOP）
-* 访问控制：`allow/deny publish|play`（支持 CIDR，RTMP 与 HTTP-FLV 共用）
-* JSON 状态接口 `/stat`：流列表、编码格式、码量、客户端数等实时统计
-* 慢消费者保护：待发队列超限丢帧重同步，持续停滞断开单个订阅者，不影响他人
-* 静态文件服务（nginx 原生能力，`html/` 目录）
-* Windows 服务 + 托盘管理（安装、启动、停止、卸载）
+## Features
 
-## 下载
+* RTMP publishing/playback (compatible with OBS, FFmpeg, etc.)
+* Enhanced RTMP v1: native HEVC (H.265), AV1, VP9 and Opus support, forwarded without transcoding
+* HTTP-FLV publishing (POST) / playback (GET) with HTTP/1.1 chunked transfer
+* WS/WSS-FLV publishing / playback
+* GOP cache, so players start instantly from the most recent keyframe (≤ 1 GOP)
+* Access control: `allow/deny publish|play` (CIDR supported, shared by RTMP and HTTP-FLV)
+* JSON status endpoint `/stat`: live stream list, codecs, bitrate, client counts and more
+* Slow-consumer protection: drop-and-resync when the send queue overflows, and disconnect a
+  single stalled subscriber without affecting others
+* Static file serving (native nginx capability, `html/` directory)
+* Windows service + tray management (install, start, stop, uninstall)
 
-* **推荐**：到 [Releases](../../releases) 页下载 `nginx-live-<版本>-win32.zip`（绿色包，解压即用），
-  同页附 `SHA256SUMS.txt` 校验和；每个版本的构建来源与组件版本见 Release 说明。
-* 也可以直接 clone 本仓库：仓库内提交的就是同一份可运行包。
+## Download
 
-## 使用方法
+* **Recommended**: download `nginx-live-<version>-win32.zip` from the [Releases](../../releases)
+  page (portable package, unzip and run). The same page carries `SHA256SUMS.txt` checksums;
+  build provenance and component versions for each release are in the release notes.
+* Alternatively, clone this repository directly: what is committed here is the same runnable package.
 
-### 快速开始
+## Usage
 
-* 直接运行：双击 `nginx.exe`
-* 作为服务/托盘管理：运行 `nginx_service.exe`（安装、启动、停止、卸载、打开配置/页面）
-* 命令行停止：`nginx.exe -s stop`
-* 重新加载配置：`nginx.exe -s reload`
+### Quick start
 
-默认端口（见 `conf/nginx.conf`）：
+* Run directly: double-click `nginx.exe`
+* Service / tray management: run `nginx_service.exe` (install, start, stop, uninstall, open
+  config/pages)
+* Stop from the command line: `nginx.exe -s stop`
+* Reload configuration: `nginx.exe -s reload`
 
-| 端口 | 协议 | 用途 |
+Default ports (see `conf/nginx.conf`):
+
+| Port | Protocol | Purpose |
 |---|---|---|
-| 1935 | RTMP | 推流 / 拉流，application `live` |
-| 8080 | HTTP | HTTP-FLV 拉流 / 推流、状态页 |
+| 1935 | RTMP | Publish / play, application `live` |
+| 8080 | HTTP | HTTP-FLV play / publish, status page |
 
-### 推流
+### Publishing
 
-OBS：设置 → 推流 → 自定义服务器，填 `rtmp://<服务器IP>:1935/live`，串流密钥任意（即流名）。
+OBS: Settings → Stream → Custom server, enter `rtmp://<server-ip>:1935/live`, and any stream key
+(i.e. the stream name).
 
-FFmpeg：
+FFmpeg:
 
 ```bash
 # H.264 + AAC
 ffmpeg -re -i input.mp4 -c copy -f flv rtmp://127.0.0.1:1935/live/mystream
 
-# HEVC/AV1/VP9/Opus 源直接 copy（Enhanced RTMP 封装，无需转码）
+# HEVC/AV1/VP9/Opus sources copied as-is (Enhanced RTMP encapsulation, no transcoding)
 ffmpeg -re -i input_265.mp4 -c copy -f flv rtmp://127.0.0.1:1935/live/hevc
 ```
 
-也支持 HTTP-FLV 推流（POST）：
+HTTP-FLV publishing (POST) is also supported:
 
 ```bash
 ffmpeg -re -i input.mp4 -c copy -f flv http://127.0.0.1:8080/live/mystream
 ```
 
-### 播放
+### Playback
 
 ```bash
 # RTMP
@@ -76,31 +86,32 @@ ffplay rtmp://127.0.0.1:1935/live/mystream
 ffplay http://127.0.0.1:8080/live/mystream.flv
 ```
 
-浏览器播放可配合支持 HTTP-FLV 的播放器，如
-[NodePlayer.js](https://www.nodemedia.cn/product/nodeplayer-js/)（原生支持 Enhanced-FLV H.265）。
+For browser playback, pair with an HTTP-FLV capable player such as
+[NodePlayer.js](https://www.nodemedia.cn/product/nodeplayer-js/) (native Enhanced-FLV H.265 support).
 
-### 状态查看
+### Status
 
 ```bash
 curl -s http://127.0.0.1:8080/stat
 ```
 
-返回 JSON：应用与流列表、是否在推、客户端数、音视频编码、收发字节数、运行时长等。
+Returns JSON: applications and stream list, whether publishing, client count, audio/video codecs,
+bytes sent/received, uptime and more.
 
-## 配置说明
+## Configuration
 
-`conf/nginx.conf` 为配置文件实例：
+`conf/nginx.conf` is the example configuration:
 
 ```nginx
 rtmp {
     server {
-        listen 1935;              # RTMP 监听
-        gop_cache  on;            # GOP 缓存（秒开）
+        listen 1935;              # RTMP listener
+        gop_cache  on;            # GOP cache (instant start)
         chunk_size 65535;
 
         application live {
-            live             on;  # 推拉开关
-            # allow publish 127.0.0.1;   # 可选：访问控制
+            live             on;  # publish/play switch
+            # allow publish 127.0.0.1;   # optional: access control
             # deny  publish all;
         }
     }
@@ -111,54 +122,55 @@ http {
         listen 8080;
 
         location ~ ^/[a-z0-9_]+/.+(\.flv)?$ {
-            live_flv  on;         # HTTP-FLV 推/拉流端点 /<app>/<stream>[.flv]
+            live_flv  on;         # HTTP-FLV publish/play endpoint /<app>/<stream>[.flv]
         }
 
         location = /stat {
-            live_stat  on;        # JSON 状态接口
+            live_stat  on;        # JSON status endpoint
         }
     }
 }
 ```
 
-常用指令（完整说明见模块文档 `docs/usage.md`）：
+Common directives (see the module docs `docs/usage.md` for the full reference):
 
-| 指令 | 默认 | 说明 |
+| Directive | Default | Description |
 |------|------|------|
-| `listen <addr:port>` | — | RTMP 监听地址，可多条 |
-| `live on\|off` | `off` | 关闭时发布/播放返回 503 |
-| `gop_cache on\|off` | `on` | GOP 缓存，秒开 |
-| `chunk_size <n>` | `65535` | RTMP 出站 chunk size |
-| `timeout <t>` | `60s` | 握手/发送停滞/发布空闲超时 |
-| `allow/deny [publish\|play] <addr>\|all` | 放行 | 按书写顺序匹配，支持 CIDR |
-| `live_flv on\|off` | `off` | HTTP 端启用 HTTP-FLV 推/拉 |
-| `live_stat on\|off` | `off` | HTTP 端启用 `/stat` |
+| `listen <addr:port>` | — | RTMP listen address, may be repeated |
+| `live on\|off` | `off` | When off, publish/play return 503 |
+| `gop_cache on\|off` | `on` | GOP cache, instant start |
+| `chunk_size <n>` | `65535` | RTMP outbound chunk size |
+| `timeout <t>` | `60s` | Handshake / send-stall / publisher-idle timeout |
+| `allow/deny [publish\|play] <addr>\|all` | allow | Matched in written order, CIDR supported |
+| `live_flv on\|off` | `off` | Enable HTTP-FLV publish/play on the HTTP side |
+| `live_stat on\|off` | `off` | Enable `/stat` on the HTTP side |
 
-注意：流表为 per-worker，生产环境建议保持 `worker_processes 1`。
+Note: the stream table is per-worker, so `worker_processes 1` is recommended in production.
 
-## 支持的编码
+## Supported codecs
 
-| 类型 | legacy FLV | Enhanced RTMP v1（FourCC） |
+| Type | Legacy FLV | Enhanced RTMP v1 (FourCC) |
 |------|-----------|---------------------------|
-| 视频 | H.264 | HEVC `hvc1`、AV1 `av01`、VP9 `vp09` |
-| 音频 | AAC、MP3 等 | Opus、ac-3、ec-3、`.mp3`、fLaC |
+| Video | H.264 | HEVC `hvc1`, AV1 `av01`, VP9 `vp09` |
+| Audio | AAC, MP3, etc. | Opus, ac-3, ec-3, `.mp3`, fLaC |
 
-## 已知限制
+## Known limitations
 
-* 不支持 Flash 时代的旧式 RTMP 扩展 H.265（如 `cdn_cn` flv_265 标准）
-* AMF3 命令（objectEncoding=3）不支持
-* reload 后新 worker 流表为空，已有流对新连接不可见（长连接场景可配置 `worker_shutdown_timeout`）
+* Legacy Flash-era RTMP-extension H.265 (e.g. the `cdn_cn` flv_265 standard) is not supported
+* AMF3 commands (objectEncoding=3) are not supported
+* After a reload the new worker's stream table is empty, so existing streams are not visible to
+  new connections (for long-lived connection scenarios, configure `worker_shutdown_timeout`)
 
+## Supported clients
 
-## 支持的客户端
-|Client   | H.264  | HEVC | VP9 | AV1|
+| Client | H.264 | HEVC | VP9 | AV1 |
 | ------------ | ------------ |------------ |------------ |------------ |
-|  OBS_29.1+|  ✅   | ✅ |  ❌|  ✅ |
-|  FFmpeg/FFplay_6.1+ |   ✅  |  ✅ |  ✅ |  ✅ |
-|  NodePlayer.js_1.0+ |   ✅  |  ✅ |  ❌ |  ❌ |
-|  NodeMediaClient_3.0+ |   ✅  |  ✅ |  ❌ |  ❌ |
+| OBS_29.1+ | ✅ | ✅ | ❌ | ✅ |
+| FFmpeg/FFplay_6.1+ | ✅ | ✅ | ✅ | ✅ |
+| NodePlayer.js_1.0+ | ✅ | ✅ | ❌ | ❌ |
+| NodeMediaClient_3.0+ | ✅ | ✅ | ❌ | ❌ |
 
-### [QLive](https://play.google.com/store/apps/details?id=cn.nodemedia.qlive) 
+### [QLive](https://play.google.com/store/apps/details?id=cn.nodemedia.qlive)
 Free Android Live Streaming App
 
 ### [NodePlayer.js](https://www.nodemedia.cn/product/nodeplayer-js/) pure javascript implementation live streaming player
@@ -196,18 +208,19 @@ Free Android Live Streaming App
 - iOS and Android
 - player and publisher
 
+## License and provenance
 
-## 许可与来源
+This package is a combined binary of nginx + nginx-live-module + the service manager. The full
+license texts for every component ship with the package in the `LICENSES/` directory; the complete
+inventory and copyright notices are in `THIRD-PARTY-NOTICES.md`:
 
-本包是 nginx + nginx-live-module + 服务管理器的组合二进制，各组件的许可证全文随包
-附在 `LICENSES/` 目录，完整清单与版权声明见 `THIRD-PARTY-NOTICES.md`：
-
-| 组件 | 许可证 |
+| Component | License |
 |---|---|
 | nginx | BSD 2-Clause |
-| nginx-live-module、服务管理器 | Apache License 2.0 |
+| nginx-live-module, service manager | Apache License 2.0 |
 | OpenSSL | Apache License 2.0 |
-| PCRE2 | BSD 3-Clause（含 PCRE2 例外条款） |
+| PCRE2 | BSD 3-Clause (with the PCRE2 exception clause) |
 | zlib | zlib License |
 
-nginx 是 Nginx, Inc. 的注册商标；本包是独立第三方构建，与 Nginx, Inc. 无隶属关系。
+nginx is a registered trademark of Nginx, Inc.; this package is an independent third-party build
+and is not affiliated with Nginx, Inc.
