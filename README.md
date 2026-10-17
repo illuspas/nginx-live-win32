@@ -21,6 +21,9 @@ do not hard-code versions here.
 
 * RTMP publishing/playback (compatible with OBS, FFmpeg, etc.)
 * Enhanced RTMP v1: native HEVC (H.265), AV1, VP9 and Opus support, forwarded without transcoding
+* Enhanced RTMP v2 multi-track audio (Multitrack): several audio tracks forwarded in parallel
+  within one stream, each with its own cached sequence header replayed to joining players; the
+  encapsulation is passed through as-is (no muxing, no transcoding)
 * HTTP-FLV publishing (POST) / playback (GET) with HTTP/1.1 chunked transfer
 * WS/WSS-FLV publishing / playback
 * GOP cache, so players start instantly from the most recent keyframe (≤ 1 GOP)
@@ -96,7 +99,8 @@ curl -s http://127.0.0.1:8080/stat
 ```
 
 Returns JSON: applications and stream list, whether publishing, client count, audio/video codecs,
-bytes sent/received, uptime and more.
+bytes sent/received, uptime and more. For multi-track streams `audio_codec` reports the first
+track only; the other tracks' codecs do not appear in that field.
 
 ## Configuration
 
@@ -154,10 +158,21 @@ Note: the stream table is per-worker, so `worker_processes 1` is recommended in 
 | Video | H.264 | HEVC `hvc1`, AV1 `av01`, VP9 `vp09` |
 | Audio | AAC, MP3, etc. | Opus, ac-3, ec-3, `.mp3`, fLaC |
 
+Audio tracks support all three Enhanced RTMP v2 Multitrack modes: single track (OneTrack),
+many tracks each in its own tag (ManyTracks-ManyTracks), and one audio payload shared by
+several tracks (ManyTracks-OneTrack). The server caches one sequence header per audio track
+indexed by its `trackIndex` (up to 16 tracks) and replays them per track when a player joins;
+track selection is left to the player, and both RTMP and HTTP-FLV/WS-FLV output forwards the
+original tag unchanged.
+
 ## Known limitations
 
 * Legacy Flash-era RTMP-extension H.265 (e.g. the `cdn_cn` flv_265 standard) is not supported
 * AMF3 commands (objectEncoding=3) are not supported
+* Per-track sequence headers are cached for at most 16 tracks: data with `trackIndex ≥ 16` is
+  still forwarded, but its sequence header is not cached, so a player joining later does not
+  receive that track's decoder configuration
+* `/stat` reports only the first (lowest-index) audio track in `audio_codec`
 * After a reload the new worker's stream table is empty, so existing streams are not visible to
   new connections (for long-lived connection scenarios, configure `worker_shutdown_timeout`)
 

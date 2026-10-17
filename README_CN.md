@@ -17,6 +17,7 @@ nginx-live-win32 是 [nginx](https://nginx.org/) + [nginx-live-module](https://g
 
 * RTMP 推流/播放（兼容 OBS、FFmpeg 等）
 * Enhanced RTMP v1：原生支持 HEVC (H.265)、AV1、VP9、Opus，无需转码直接转发
+* Enhanced RTMP v2 多音轨音频（Multitrack）：同一路流内多条音频轨并行转发，每轨独立缓存序列头、新连接按轨补齐，封装原样透传（不混流、不转码）
 * HTTP-FLV 推流（POST）/ 播放（GET），HTTP/1.1 chunked
 * WS/WSS-flv  推流 / 播放
 * GOP 缓存，播放端从最近关键帧秒开（≤ 1 个 GOP）
@@ -88,6 +89,7 @@ curl -s http://127.0.0.1:8080/stat
 ```
 
 返回 JSON：应用与流列表、是否在推、客户端数、音视频编码、收发字节数、运行时长等。
+多音轨流的 `audio_codec` 取第一条音轨，其余音轨编码不在此字段体现。
 
 ## 配置说明
 
@@ -145,10 +147,18 @@ http {
 | 视频 | H.264 | HEVC `hvc1`、AV1 `av01`、VP9 `vp09` |
 | 音频 | AAC、MP3 等 | Opus、ac-3、ec-3、`.mp3`、fLaC |
 
+音频轨支持 Enhanced RTMP v2 Multitrack 的三种模式：单轨（OneTrack）、
+多轨各自成 tag（ManyTracks-ManyTracks）、一份音频数据多轨共用（ManyTracks-OneTrack）。
+服务端按 `trackIndex` 为每条音频轨缓存序列头（最多 16 条），新播放端接入时逐轨下发，
+音轨选择由播放端完成；RTMP 与 HTTP-FLV/WS-FLV 输出均为原始 tag 透传。
+
 ## 已知限制
 
 * 不支持 Flash 时代的旧式 RTMP 扩展 H.265（如 `cdn_cn` flv_265 标准）
 * AMF3 命令（objectEncoding=3）不支持
+* 多音轨的序列头缓存上限为 16 条：`trackIndex ≥ 16` 的数据仍照常转发，但其序列头不缓存，
+  后加入的播放端拿不到该轨的解码配置
+* `/stat` 的 `audio_codec` 只显示第一条（索引最小的）音轨的编码
 * reload 后新 worker 流表为空，已有流对新连接不可见（长连接场景可配置 `worker_shutdown_timeout`）
 
 
